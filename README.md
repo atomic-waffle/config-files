@@ -1,1 +1,1 @@
-# config-files
+# configs and programs

@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+import subprocess
+import sys
+# calibration
+cal = 4
+# direction, as argument from user input (l, r, u, d / h+, h-, v+, v-)
+direction = sys.argv[1]
+# move step size 
+mv = -1 if  direction in ["l", "d", "h-", "v-"] else 1
+
+def get(command):
+    return subprocess.check_output(["/bin/bash", "-c", command])\
+           .decode("utf-8")
+
+def execute(command):
+    subprocess.call(["/bin/bash", "-c", command])
+# find the top shift (height of the panel = resolution - working area)
+res_output = get("xrandr").split(); idf = res_output.index("current")
+res = (int(res_output[idf+1]), int(res_output[idf+3].replace(",", "")))[-1]
+topshift = int(res) - int(get("wmctrl -d").split()[8].split("x")[-1])+cal
+# find frontmost window
+def get_windowid():
+    cmd = "xprop -root"
+    frontmost = [l for l in get(cmd).splitlines() if\
+                 "ACTIVE_WINDOW(WINDOW)" in l][0].split()[-1]
+    return frontmost[:2]+"0"+frontmost[2:]
+# get window geometry, create move command
+set_w = [w.split()[0:6] for w in get("wmctrl -lG").splitlines()\
+          if get_windowid() in w][0]
+set_w[0] = "wmctrl -ir "+set_w[0]+" -e 0"
+set_w.pop(1)
+
+if direction in ["l", "r"]:
+    set_w[1] = str(int(set_w[1])+mv); set_w[2] = str(int(set_w[2])-topshift)  
+elif direction in ["u", "d"]:
+    set_w[2] = str(int(set_w[2])-topshift-mv) 
+elif direction in ["v-", "v+"]:
+    set_w[2] = str(int(set_w[2])-topshift); set_w[4] = str(int(set_w[4])+mv)
+elif direction in ["h-", "h+"]:
+    set_w[2] = str(int(set_w[2])-topshift); set_w[3] = str(int(set_w[3])+mv)
+
+execute((",").join(set_w))
