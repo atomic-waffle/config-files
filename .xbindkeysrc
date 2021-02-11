@@ -1,0 +1,23 @@
+#mpc toggle
+"mpc toggle"
+    XF86AudioPlay
+#mpc next
+"mpc next && notify-send --hint=int:transient:1 -t 4000 "MPD" "`mpc current`""
+    XF86AudioNext
+#mpc previous
+"mpc prev && notify-send --hint=int:transient:1 -t 4000 "MPD" "`mpc current`""
+    XF86AudioPrev
+#mpc jump foward 3 seconds
+"mpc seekthrough 3"
+    Mod4 + XF86AudioNext
+#mpc jump backward 3 seconds
+"mpc seekthrough -3"
+    Mod4 + XF86AudioPrev
+    
+#foco na janela do firefox
+"wmctrl -a Firefox"
+    Mod4 + f
+
+#passmenu
+"passmenu -h 35 -l 10"
+    Mod4 + p
