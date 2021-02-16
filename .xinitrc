@@ -65,6 +65,7 @@ get_session(){
 
 #exec $(get_session)
 exec wal -i /home/lucas/.config/wallpaper.png &
+exec feh --bg-scale --no-xinerama home/lucas/.config/wallpaper.png &
 exec resolution &
 exec picom &
 exec firefox & 

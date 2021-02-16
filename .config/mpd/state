@@ -1,13 +1,13 @@
-sw_volume: 76
+sw_volume: 74
 audio_device_state:1:mpd alsamixer-output
 state: pause
-current: 338
-time: 160.106000
+current: 301
+time: 80.752000
 random: 0
 repeat: 0
 single: 0
 consume: 0
-crossfade: 5
+crossfade: 0
 mixrampdb: 0.000000
 mixrampdelay: -1.000000
 playlist_begin
